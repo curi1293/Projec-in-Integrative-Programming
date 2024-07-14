@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<school>
+<teachers>
+        <teacher>
+            <id>kurt_malinao</id>
+            <password>kurt_malinao</password>
+            <gradeLevel>1</gradeLevel>
+        </teacher>
+        <teacher>
+            <id>cj_uri</id>
+            <password>cj_uri</password>
+            <gradeLevel>2</gradeLevel>
+        </teacher>
+        <teacher>
+            <id>tina_tusiap</id>
+            <password>tina_tusiap</password>
+            <gradeLevel>3</gradeLevel>
+        </teacher>
+        <teacher>
+            <id>jenie_magnaye</id>
+            <password>jenie_magnaye</password>
+            <gradeLevel>4</gradeLevel>
+        </teacher>
+        <teacher>
+            <id>cedrick_dator</id>
+            <password>cedrick_dator</password>
+            <gradeLevel>5</gradeLevel>
+        </teacher>
+        <teacher>
+            <id>christian_fernando</id>
+            <password>christian_fernando</password>
+            <gradeLevel>6</gradeLevel>
+        </teacher>
+    </teachers>
+</school>

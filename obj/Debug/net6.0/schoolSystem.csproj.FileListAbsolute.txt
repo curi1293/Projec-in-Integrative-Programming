@@ -1,0 +1,29 @@
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\bin\Debug\net6.0\schoolSystem.exe
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\bin\Debug\net6.0\schoolSystem.deps.json
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\bin\Debug\net6.0\schoolSystem.runtimeconfig.json
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\bin\Debug\net6.0\schoolSystem.dll
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\bin\Debug\net6.0\schoolSystem.pdb
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.csproj.AssemblyReference.cache
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.AssemblyInfoInputs.cache
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.AssemblyInfo.cs
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.csproj.CoreCompileInputs.cache
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.dll
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\refint\schoolSystem.dll
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.pdb
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\schoolSystem.genruntimeconfig.cache
+C:\Users\Kyla Nicole\Documents\Kenneth Del Mundo\Intergration Kineme\schoolSystem\obj\Debug\net6.0\ref\schoolSystem.dll
+D:\schoolSystem\bin\Debug\net6.0\schoolSystem.exe
+D:\schoolSystem\bin\Debug\net6.0\schoolSystem.deps.json
+D:\schoolSystem\bin\Debug\net6.0\schoolSystem.runtimeconfig.json
+D:\schoolSystem\bin\Debug\net6.0\schoolSystem.dll
+D:\schoolSystem\bin\Debug\net6.0\schoolSystem.pdb
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.GeneratedMSBuildEditorConfig.editorconfig
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.AssemblyInfoInputs.cache
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.AssemblyInfo.cs
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.csproj.CoreCompileInputs.cache
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.dll
+D:\schoolSystem\obj\Debug\net6.0\refint\schoolSystem.dll
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.pdb
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.genruntimeconfig.cache
+D:\schoolSystem\obj\Debug\net6.0\ref\schoolSystem.dll
