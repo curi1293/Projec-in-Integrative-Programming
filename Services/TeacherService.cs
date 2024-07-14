@@ -50,7 +50,7 @@ namespace SchoolSystem.Services
                     DisplayWelcomeMessage(teacher);
                     DisplayStudentListHeader();
                     DisplayStudentsByGradeLevel(teacher.GradeLevel, studentsXmlFilePath);
-                    HandleTeacherOptions(teacher.GradeLevel, studentsXmlFilePath, ref exit);
+                    HandleTeacherOptions(teacher, studentsXmlFilePath, ref exit);
                 }
             }
             else
@@ -118,31 +118,46 @@ namespace SchoolSystem.Services
             }
         }
 
-        private static void HandleTeacherOptions(int gradeLevel, string studentsXmlFilePath, ref bool exit)
+        private static void HandleTeacherOptions(Teacher teacher, string studentsXmlFilePath, ref bool exit)
         {
-            string[] options = { "Add Student", "Edit Student", "Delete Student", "Exit" };
+            string[] options = { "Display Student List", "Add Student", "Edit Student", "Delete Student", "Exit" };
             int currentSelection = 0;
 
             while (!exit)
             {
                 Console.Clear();
                 DisplayWelcomeHeader(); // Display header before options
+                DisplayWelcomeMessage(teacher); // Pass teacher object to display the welcome message with ID and name
 
-                Console.WriteLine("\nChoose an option:");
+                Console.WriteLine();
+
+                // Calculate the width of the longest option for proper centering and border
+                int maxLength = options.Max(option => option.Length) + 4;
+                int totalWidth = maxLength + 4; // Adding 4 for border spaces
+
+                // Center the options block
+                int leftPadding = (Console.WindowWidth - totalWidth) / 2;
+
+                // Display top border
+                Console.WriteLine(new string(' ', leftPadding) + new string('=', totalWidth));
 
                 for (int i = 0; i < options.Length; i++)
                 {
+                    string optionLine = $"| {options[i].PadRight(maxLength)} |";
                     if (i == currentSelection)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"> {options[i]}");
+                        Console.WriteLine(new string(' ', leftPadding) + optionLine);
                         Console.ResetColor();
                     }
                     else
                     {
-                        Console.WriteLine($"  {options[i]}");
+                        Console.WriteLine(new string(' ', leftPadding) + optionLine);
                     }
                 }
+
+                // Display bottom border
+                Console.WriteLine(new string(' ', leftPadding) + new string('=', totalWidth));
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
 
@@ -168,29 +183,43 @@ namespace SchoolSystem.Services
                             case 0:
                                 Console.Clear();
                                 DisplayWelcomeHeader();
-                                AddStudent(gradeLevel, studentsXmlFilePath);
+                                DisplayStudentListHeader();
+                                DisplayStudentsByGradeLevel(teacher.GradeLevel, studentsXmlFilePath);
                                 PauseAndReturnToMain();
                                 break;
                             case 1:
                                 Console.Clear();
                                 DisplayWelcomeHeader();
-                                EditStudent(studentsXmlFilePath, gradeLevel);
+                                AddStudent(teacher.GradeLevel, studentsXmlFilePath);
                                 PauseAndReturnToMain();
                                 break;
                             case 2:
                                 Console.Clear();
                                 DisplayWelcomeHeader();
-                                DeleteStudent(studentsXmlFilePath);
+                                EditStudent(studentsXmlFilePath, teacher.GradeLevel);
                                 PauseAndReturnToMain();
                                 break;
                             case 3:
+                                Console.Clear();
+                                DisplayWelcomeHeader();
+                                DeleteStudent(studentsXmlFilePath);
+                                PauseAndReturnToMain();
+                                break;
+                            case 4:
                                 exit = true;
+                                Console.Clear();
+                                Wcome wcome = new Wcome();
+                                wcome.DisplayWcome();
+                                Space.Spacing();
+                                LogIn.Login();
+
                                 break;
                         }
                         break;
                 }
             }
         }
+
 
         private static void DisplayWelcomeHeader()
         {
@@ -201,8 +230,6 @@ namespace SchoolSystem.Services
             Console.WriteLine("\t\tTeacher Options");
             Console.ResetColor();
         }
-
-
 
         private static void AddStudent(int gradeLevel, string studentsXmlFilePath)
         {

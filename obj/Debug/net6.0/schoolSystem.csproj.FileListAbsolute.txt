@@ -27,3 +27,4 @@ D:\schoolSystem\obj\Debug\net6.0\refint\schoolSystem.dll
 D:\schoolSystem\obj\Debug\net6.0\schoolSystem.pdb
 D:\schoolSystem\obj\Debug\net6.0\schoolSystem.genruntimeconfig.cache
 D:\schoolSystem\obj\Debug\net6.0\ref\schoolSystem.dll
+D:\schoolSystem\obj\Debug\net6.0\schoolSystem.sourcelink.json
