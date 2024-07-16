@@ -50,7 +50,7 @@ namespace SchoolSystem.Services
                     DisplayWelcomeMessage(teacher);
                     DisplayStudentListHeader();
                     DisplayStudentsByGradeLevel(teacher.GradeLevel, studentsXmlFilePath);
-                    HandleTeacherOptions(teacher, studentsXmlFilePath, ref exit);
+                    HandleTeacherOptions(id, teacher, studentsXmlFilePath, ref exit);
                 }
             }
             else
@@ -74,6 +74,10 @@ namespace SchoolSystem.Services
             Console.WriteLine();
         }
 
+        //public class Average
+        //{
+        //public static string[] quarters = { "1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Final" };
+        //}
         private static void DisplayStudentListHeader()
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -81,13 +85,11 @@ namespace SchoolSystem.Services
             Console.WriteLine(listOfStudents.PadLeft((Console.WindowWidth + listOfStudents.Length) / 2));
             Console.ResetColor();
 
-            string[] subjects = Subjects.grade1;
-            string header = "ID".PadRight(20) + "Name";
+            //string[] Quarter = Average.quarters;
+            string header = "ID".PadRight(15) + "Name" + "\t\t\t1st Quarter" + "\t2nd Quarter" + "\t3rd Quarter" + "\t4th Quarter" + "\tFinal";
 
-            foreach (var subject in subjects)
-            {
-                header += "\t" + subject;
-            }
+            //foreach (var quarter in Quarter)
+            //{header += "\t\t\t" + quarter;}
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("\t" + header);
@@ -104,13 +106,35 @@ namespace SchoolSystem.Services
                                select new
                                {
                                    ID = student.Element("id").Value,
-                                   Name = student.Element("name").Value
+                                   Name = student.Element("name").Value,
+                                   Grades = new
+                                   {
+                                       Quarter1 = student.Element("subjects")?.Element("quarter1") != null ? int.Parse(student.Element("subjects").Element("quarter1").Value) : 0,
+                                       Quarter2 = student.Element("subjects")?.Element("quarter2") != null ? int.Parse(student.Element("subjects").Element("quarter2").Value) : 0,
+                                       Quarter3 = student.Element("subjects")?.Element("quarter3") != null ? int.Parse(student.Element("subjects").Element("quarter3").Value) : 0,
+                                       Quarter4 = student.Element("subjects")?.Element("quarter4") != null ? int.Parse(student.Element("subjects").Element("quarter4").Value) : 0
+                                   }
                                };
 
                 foreach (var student in students)
                 {
-                    Console.WriteLine($"\t{student.ID}".PadRight(20) + $"{student.Name}");
+                    // Calculate quarter averages
+                    double quarter1Avg = student.Grades.Quarter1;
+                    double quarter2Avg = student.Grades.Quarter2;
+                    double quarter3Avg = student.Grades.Quarter3;
+                    double quarter4Avg = student.Grades.Quarter4;
+
+                    // Calculate overall average
+                    double overallAvg = (quarter1Avg + quarter2Avg + quarter3Avg + quarter4Avg) / 4.0;
+
+                    Console.WriteLine($"\t{student.ID}".PadRight(15) + $" {student.Name}" +
+                                      $"\t\t\t{student.Grades.Quarter1}\t{student.Grades.Quarter2}\t{student.Grades.Quarter3}\t{student.Grades.Quarter4}" +
+                                      $"\t\t\tQuarter Avg: {overallAvg:F2}");
+
+                    // Displaying only the average (not the grade)
+                    Console.WriteLine($"\t\t\tAverage: {overallAvg:F2}");
                 }
+
             }
             else
             {
@@ -118,7 +142,7 @@ namespace SchoolSystem.Services
             }
         }
 
-        private static void HandleTeacherOptions(Teacher teacher, string studentsXmlFilePath, ref bool exit)
+        private static void HandleTeacherOptions(string id, Teacher teacher, string studentsXmlFilePath, ref bool exit)
         {
             string[] options = { "Display Student List", "Add Student", "Edit Student", "Delete Student", "Exit" };
             int currentSelection = 0;
@@ -185,6 +209,7 @@ namespace SchoolSystem.Services
                                 DisplayWelcomeHeader();
                                 DisplayStudentListHeader();
                                 DisplayStudentsByGradeLevel(teacher.GradeLevel, studentsXmlFilePath);
+                                GradingOption(id, teacher, studentsXmlFilePath, ref exit);
                                 PauseAndReturnToMain();
                                 break;
                             case 1:
@@ -219,6 +244,213 @@ namespace SchoolSystem.Services
                 }
             }
         }
+        private const string teachersXmlFilePath = "teachers.xml";
+        private static void GradingOption(string id, Teacher teacher, string studentsXmlFilePath, ref bool exit)
+        {
+            string[] options = { "Add Grade", "Edit Grade", "Back" };
+            int currentSelection = 0;
+
+            while (!exit)
+            {
+                Console.Clear();
+                DisplayWelcomeHeader();
+                DisplayStudentListHeader();
+                DisplayStudentsByGradeLevel(teacher.GradeLevel, studentsXmlFilePath);
+
+
+                Console.WriteLine();
+
+                int maxLength = options.Max(option => option.Length) + 4;
+                int totalWidth = maxLength + 4;
+
+                int leftPadding = (Console.WindowWidth - totalWidth) / 2;
+
+                Console.WriteLine(new string(' ', leftPadding) + new string('=', totalWidth));
+                var teachers = TeacherService.ReadTeachersFromXml(teachersXmlFilePath);
+                for (int i = 0; i < options.Length; i++)
+                {
+                    string optionLine = $"| {options[i].PadRight(maxLength)} |";
+                    if (i == currentSelection)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(new string(' ', leftPadding) + optionLine);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine(new string(' ', leftPadding) + optionLine);
+                    }
+                }
+
+                Console.WriteLine(new string(' ', leftPadding) + new string('=', totalWidth));
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (currentSelection > 0)
+                        {
+                            currentSelection--;
+                        }
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (currentSelection < options.Length - 1)
+                        {
+                            currentSelection++;
+                        }
+                        break;
+
+                    case ConsoleKey.Enter:
+                        switch (currentSelection)
+                        {
+                            case 0:
+                                Console.Clear();
+                                DisplayWelcomeHeader();
+                                AddGrade(studentsXmlFilePath);
+                                PauseAndReturnToMain();
+                                break;
+                            case 1:
+                                Console.Clear();
+                                DisplayWelcomeHeader();
+                                EditGrade(studentsXmlFilePath);
+                                PauseAndReturnToMain();
+                                break;
+                            case 2:
+                                exit = true;
+                                Console.Clear();
+                                WelcomeTeacher(id, teachers, studentsXmlFilePath);
+                                break;
+                        }
+                        break;
+                }
+            }
+        }
+
+        private static void AddGrade(string studentsXmlFilePath)
+        {
+            XElement studentsXml = XElement.Load(studentsXmlFilePath);
+            XElement studentsElement = studentsXml.Element("students");
+
+            Console.Write("Enter Student ID to Add Grade: ");
+            string id = Console.ReadLine();
+
+            XElement studentElement = studentsElement.Elements("student")
+                .FirstOrDefault(e => e.Element("id").Value.Equals(id, StringComparison.OrdinalIgnoreCase));
+
+            if (studentElement != null)
+            {
+                Console.WriteLine($"Adding grades for Student ID: {id}");
+
+                // Display subjects and current grades
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("\nSubject".PadRight(20) + "1st Quarter".PadRight(15) + "2nd Quarter".PadRight(15) + "3rd Quarter".PadRight(15) + "4th Quarter".PadRight(15));
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("--------------------------------------------------------------------------------------");
+                Console.ResetColor();
+
+                foreach (var subjectElement in studentElement.Element("subjects").Elements())
+                {
+                    Console.Write($"{subjectElement.Name.ToString().PadRight(20)}: ");
+                    foreach (var quarterElement in subjectElement.Elements())
+                    {
+                        int grade = int.Parse(quarterElement.Value);
+                        Console.ForegroundColor = GetGradeColor(grade);
+                        Console.Write($"{grade.ToString().PadRight(15)}");
+                        Console.ResetColor();
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine("\nQuarter to add subject:");
+                Console.WriteLine("Enter Grades per Subject:");
+
+                // Update grades
+                foreach (var subjectElement in studentElement.Element("subjects").Elements())
+                {
+                    Console.Write($"{subjectElement.Name}: ");
+                    if (int.TryParse(Console.ReadLine(), out int newGrade) && newGrade >= 0)
+                    {
+                        subjectElement.Value = newGrade.ToString();
+                    }
+                }
+
+                // Save changes to XML file
+                studentsXml.Save(studentsXmlFilePath);
+                Console.WriteLine("Grades added successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Student not found.");
+            }
+        }
+
+        private static ConsoleColor GetGradeColor(int grade)
+        {
+            return grade >= 75 ? ConsoleColor.Green : ConsoleColor.Red;
+        }
+        private static void EditGrade(string studentsXmlFilePath)
+        {
+            XElement studentsXml = XElement.Load(studentsXmlFilePath);
+            XElement studentsElement = studentsXml.Element("students");
+
+            Console.Write("Enter Student ID to edit grade: ");
+            string id = Console.ReadLine();
+
+            XElement studentElement = studentsElement.Elements("student")
+                .FirstOrDefault(e => e.Element("id").Value.Equals(id, StringComparison.OrdinalIgnoreCase));
+
+            if (studentElement != null)
+            {
+                Console.WriteLine($"Editing grades for Student ID: {id}");
+
+                // Display subjects and current grades
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("\nSubject".PadRight(20) + "1st Quarter".PadRight(15) + "2nd Quarter".PadRight(15) + "3rd Quarter".PadRight(15) + "4th Quarter".PadRight(15));
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("--------------------------------------------------------------------------------------");
+                Console.ResetColor();
+
+                foreach (var subjectElement in studentElement.Element("subjects").Elements())
+                {
+                    Console.Write($"{subjectElement.Name.ToString().PadRight(20)}: ");
+                    foreach (var quarterElement in subjectElement.Elements())
+                    {
+                        int grade = int.Parse(quarterElement.Value);
+                        Console.ForegroundColor = GetGradeColor(grade);
+                        Console.Write($"{grade.ToString().PadRight(15)}");
+                        Console.ResetColor();
+                    }
+                    Console.WriteLine();
+                }
+
+                // Update grades
+                Console.WriteLine("\nQuarter to edit subject grade:");
+                Console.WriteLine("\nEnter new grades:");
+                foreach (var subjectElement in studentElement.Element("subjects").Elements())
+                {
+                    Console.Write($"{subjectElement.Name}: ");
+                    if (int.TryParse(Console.ReadLine(), out int newGrade) && newGrade >= 0)
+                    {
+                        subjectElement.Element("quarter1").Value = newGrade.ToString();
+                        subjectElement.Element("quarter2").Value = newGrade.ToString();
+                        subjectElement.Element("quarter3").Value = newGrade.ToString();
+                        subjectElement.Element("quarter4").Value = newGrade.ToString();
+                    }
+                }
+
+                // Save changes to XML file
+                studentsXml.Save(studentsXmlFilePath);
+                Console.WriteLine("Grades updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Student not found.");
+            }
+        }
+
 
 
         private static void DisplayWelcomeHeader()
@@ -278,7 +510,13 @@ namespace SchoolSystem.Services
                     Name = studentElement.Element("name").Value,
                     Grade = int.Parse(studentElement.Element("grade").Value),
                     SubjectGrades = studentElement.Element("subjects").Elements()
-                        .ToDictionary(e => e.Name.LocalName, e => int.Parse(e.Value))
+                        .ToDictionary(e => e.Name.LocalName, e => new Dictionary<string, int>
+                        {
+                    { "quarter1", int.Parse(e.Element("quarter1").Value) },
+                    { "quarter2", int.Parse(e.Element("quarter2").Value) },
+                    { "quarter3", int.Parse(e.Element("quarter3").Value) },
+                    { "quarter4", int.Parse(e.Element("quarter4").Value) }
+                        })
                 };
 
                 if (!IsTeacherAuthorized(teacherGradeLevel, studentToEdit.Grade))
@@ -312,10 +550,14 @@ namespace SchoolSystem.Services
 
                         foreach (var subjectElement in studentElement.Element("subjects").Elements())
                         {
-                            Console.Write($"{subjectElement.Name}: ");
-                            if (int.TryParse(Console.ReadLine(), out int newGrade) && newGrade >= 0)
+                            Console.WriteLine($"{subjectElement.Name}:");
+                            foreach (var quarterElement in subjectElement.Elements())
                             {
-                                subjectElement.Value = newGrade.ToString();
+                                Console.Write($"{quarterElement.Name}: ");
+                                if (int.TryParse(Console.ReadLine(), out int newGrade) && newGrade >= 0)
+                                {
+                                    quarterElement.Value = newGrade.ToString();
+                                }
                             }
                         }
                         break;

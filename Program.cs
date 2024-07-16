@@ -9,12 +9,11 @@ namespace SchoolSystem
 {
     public class Program
     {
-        private const string studentsXmlFilePath = "students.xml";
-        private const string teachersXmlFilePath = "teachers.xml";
+
 
         public static void Main(string[] args)
         {
-            //Loading.DisplayLoading("Loading");
+            //Loading.DisplayLoading("Opening System");
 
             // Displaying the welcome message using Wcome class
             Wcome wcome = new Wcome();

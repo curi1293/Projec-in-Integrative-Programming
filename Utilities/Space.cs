@@ -11,7 +11,6 @@ namespace SchoolSystem.Utilities
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine();
         }
     }
 }

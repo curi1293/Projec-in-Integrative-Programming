@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grade3>
+  <students>
+    <student>
+      <id>21-60862</id>
+      <name>John Cedrick Dator</name>
+      <subjects>
+        <ReadingAndLiteracy>
+          <Q1>0</Q1>
+          <Q2>0</Q2>
+          <Q3>0</Q3>
+          <Q4>0</Q4>
+        </ReadingAndLiteracy>
+        <Language>
+          <Q1>0</Q1>
+          <Q2>0</Q2>
+          <Q3>0</Q3>
+          <Q4>0</Q4>
+        </Language>
+        <Mathematics>
+          <Q1>0</Q1>
+          <Q2>0</Q2>
+          <Q3>0</Q3>
+          <Q4>0</Q4>
+        </Mathematics>
+        <Makabansa>
+          <Q1>0</Q1>
+          <Q2>0</Q2>
+          <Q3>0</Q3>
+          <Q4>0</Q4>
+        </Makabansa>
+        <GMRC>
+          <Q1>0</Q1>
+          <Q2>0</Q2>
+          <Q3>0</Q3>
+          <Q4>0</Q4>
+        </GMRC>
+        <Science>
+          <Q1>0</Q1>
+          <Q2>0</Q2>
+          <Q3>0</Q3>
+          <Q4>0</Q4>
+        </Science>
+      </subjects>
+    </student>
+  </students>
+</grade3>
